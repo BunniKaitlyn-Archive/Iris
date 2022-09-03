@@ -8,6 +8,7 @@
 void* (*ProcessEvent)(SDK::UObject*, SDK::UFunction*, void*) = nullptr;
 void* ProcessEventHook(SDK::UObject* thisptr, SDK::UFunction* Function, void* Parms) {
     if (thisptr && Function) {
+        std::string ObjectName = thisptr->GetName();
         std::string FunctionName = Function->GetName();
 
         if (FunctionName == "ReadyToStartMatch" && thisptr->IsA(SDK::AFortGameModeAthena::StaticClass())) {
@@ -80,6 +81,22 @@ void* ProcessEventHook(SDK::UObject* thisptr, SDK::UFunction* Function, void* Pa
             PlayerPawn->bIsParachuteOpen = true;
             PlayerPawn->OnRep_IsParachuteOpen(false);
         }
+
+        if (ObjectName.find("GA_Athena_RCRocket_C_") != std::string::npos && FunctionName.find("K2_ActivateAbility") != std::string::npos) {
+            auto Ability = (SDK::UGameplayAbility*)thisptr;
+            auto PlayerState = (SDK::AFortPlayerStateAthena*)Ability->GetOwningActorFromActorInfo();
+            auto Pawn = (SDK::AFortPlayerPawnAthena*)PlayerState->GetCurrentPawn();
+            auto PC = (SDK::AFortPlayerControllerAthena*)Pawn->GetController();
+            static SDK::UBlueprintGeneratedClass* RCPawnClass = iris::sdk_util::LoadObject<SDK::UBlueprintGeneratedClass>(L"/Game/Athena/Items/Weapons/Abilities/RCRocket/B_PrjPawn_Athena_RCRocket.B_PrjPawn_Athena_RCRocket_C");
+            SDK::AFortRemoteControlledPawnAthena* RCPawn = iris::sdk_util::SpawnActor<SDK::AFortRemoteControlledPawnAthena>(RCPawnClass, { 0.0f, 0.0f, 10000.0f }, {});
+
+            if (RCPawn)
+            {
+                RCPawn->SetOwner(PC);
+                PC->Possess(RCPawn);
+                RCPawn->SetupRemoteControlPawn(PC, Pawn, SDK::EFortCustomMovement::RemoteControl_Flying, {});
+            }
+       }
     }
 
     return ProcessEvent(thisptr, Function, Parms);
