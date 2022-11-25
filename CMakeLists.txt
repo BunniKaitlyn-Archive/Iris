@@ -40,6 +40,7 @@ add_library(Iris SHARED
     src/hooks/kick_hook.cpp
     src/hooks/login_hook.cpp
     src/hooks/event_hook.cpp
+    src/hooks/ability_hook.cpp
 )
 
 target_link_libraries(Iris minhook)

@@ -12,6 +12,7 @@ void Crash();
 void Kick();
 void Login();
 void Event();
+void Ability();
 
 }
 

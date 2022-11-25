@@ -26,6 +26,16 @@ public:
         return static_cast<T*>(SpawnActor_Internal(*g_App->GWorld, clazz, &location, &rotation, params));
     }
 
+    template <typename T = SDK::AActor>
+    static T* SpawnActor(SDK::FVector location, SDK::FRotator rotation) {
+        return SpawnActor<T>(T::StaticClass(), location, rotation);
+    }
+
+    static SDK::FRotator GetRotator(SDK::FQuat rotation) {
+        static SDK::FRotator (*Rotator_Internal)(SDK::FQuat*) = reinterpret_cast<decltype(Rotator_Internal)>(util::GetBaseAddress() + offsets::FQuat::Rotator);
+        return Rotator_Internal(&rotation);
+    }
+
     static bool CompareGuid(SDK::FGuid a, SDK::FGuid b) {
         if (a.A == b.A && a.B == b.B && a.C == b.C && a.D == b.D) {
             return true;

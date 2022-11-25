@@ -1,3 +1,4 @@
-# CMake
+.vs
 *.user
 build/
+out/

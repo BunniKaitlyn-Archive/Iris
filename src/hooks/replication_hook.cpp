@@ -18,14 +18,10 @@ void TickFlushHook(SDK::UNetDriver* thisptr, float DeltaSeconds) {
 // I HATE THIS "FIX"
 void (*GetPlayerViewPoint)(SDK::APlayerController*, SDK::FVector&, SDK::FRotator&) = nullptr;
 void GetPlayerViewPointHook(SDK::APlayerController* thisptr, SDK::FVector& Location, SDK::FRotator& Rotation) {
-    if (thisptr) {
-        SDK::AActor* ViewTarget = thisptr->GetViewTarget();
-        if (ViewTarget) {
-            Location = ViewTarget->K2_GetActorLocation();
-            Rotation = ViewTarget->K2_GetActorRotation();
-        }
-    } else {
-        GetPlayerViewPoint(thisptr, Location, Rotation);
+    SDK::AActor* ViewTarget = thisptr->GetViewTarget();
+    if (ViewTarget) {
+        Location = ViewTarget->K2_GetActorLocation();
+        Rotation = ViewTarget->K2_GetActorRotation();
     }
 }
 

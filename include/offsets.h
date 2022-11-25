@@ -69,6 +69,7 @@ namespace UAbilitySystemComponent {
 /* 5.10-CL-4240749 */
 static const uint32_t GiveAbility = 0x606860;
 static const uint32_t InternalTryActivateAbility = 0x608010;
+static const uint32_t TryActivateAbility = 0x61E1B0;
 
 }
 
@@ -76,6 +77,20 @@ namespace UGameplayAbility {
 
 /* 5.10-CL-4240749 */
 static const uint32_t CanActivateAbility = 0x5F07C0;
+
+}
+
+namespace FQuat {
+
+/* 5.10-CL-4240749 */
+static const uint32_t Rotator = 0x15A2D00;
+
+}
+
+namespace ABuildingSMActor {
+
+/* 5.10-CL-4240749 */
+static const uint32_t ReplaceBuildingActor = 0xC8F250;
 
 }
 

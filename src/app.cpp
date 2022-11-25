@@ -38,6 +38,9 @@ iris::app::app() {
     hooks::Kick();
     hooks::Login();
     hooks::Event();
+    hooks::Ability();
+
+    *reinterpret_cast<bool*>(util::GetBaseAddress() + 0x5141764) = false; // GIsClient
 
     printf("Installed hooks!\n");
 }
